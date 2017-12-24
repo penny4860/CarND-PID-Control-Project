@@ -36,7 +36,7 @@ void PID::UpdateError(double cte) {
 }
 
 double PID::TotalError() {
-	return total_error/step;
+	return total_error;
 
 }
 

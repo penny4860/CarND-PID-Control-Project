@@ -60,7 +60,6 @@ int main()
           */
           pid.UpdateError(cte);
           steer_value = -pid.Kp * pid.p_error -pid.Kd * pid.d_error -pid.Ki * pid.i_error;
-          std::cout << "\n	step: " << pid.step << "  ctd: " << cte << "  past d-error: " << pid.d_error << " i error: " << pid.i_error << "\n";
 
           if (steer_value < -1.0)
         	  steer_value = -1.0;

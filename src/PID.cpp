@@ -24,9 +24,9 @@ void PID::Init(double Kp, double Ki, double Kd) {
 
 void PID::UpdateError(double cte) {
 	if (step == 0)
-		d_error = cte - p_error;
-	else
 		d_error = 0;
+	else
+		d_error = cte - p_error;
 	p_error = cte;
 	i_error += cte;
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "json.hpp"
 #include "PID.h"
+#include "twiddle.h"
 #include <math.h>
 
 // for convenience
@@ -44,6 +45,8 @@ int main()
   // TODO: Initialize the pid variable.
   pid.Init(1.0, 0.00001, 0.1);
 
+  Twiddle twiddle;
+
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -74,9 +77,20 @@ int main()
           if (steer_value > +1.0)
         	  steer_value = +1.0;
 
-          double total_error = pid.TotalError();
           if (pid.step == 750)
           {
+              double total_error = pid.TotalError();
+        	  if (twiddle.is_init == false)
+        	  {
+        		  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
+        		  double d_params[3] = {1.0, 1.0, 1.0};
+        		  twiddle.init(params, d_params, total_error);
+                  std::cout << "\n	Init !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+        	  }
+        	  else
+        	  {
+
+        	  }
               std::cout << "\n	==================================================================================";
               std::cout << "\n	Step: " << pid.step << " average_error" << total_error << std::endl;
               std::cout << "\n	==================================================================================";

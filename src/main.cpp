@@ -77,6 +77,7 @@ int main()
           if (steer_value > +1.0)
         	  steer_value = +1.0;
 
+          // twiddle parameter setting code
           {
               if (pid.step == 250)
               {
@@ -85,10 +86,11 @@ int main()
                   {
                 	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
                 	  double d_params[3] = {1.0, 1.0, 1.0};
-                	  twiddle.init(params, d_params, 10.0);
+                	  twiddle.init(params, d_params, total_error);
                       std::cout << "\n	Init !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                   }
                   std::cout << "\n	Step: " << pid.step << " average_error" << total_error << std::endl;
+                  pid.Init(pid.Kp, pid.Ki, pid.Kd);
                   reset_simulator(ws);
               }
           }

@@ -29,7 +29,7 @@ public:
   * Initialize PID.
   */
   void init(double *params_, double *d_params_, double error);
-  void run(double *params, double error);
+  void run(double error);
 
 };
 

@@ -23,32 +23,48 @@ void Twiddle::init(double *params_, double *d_params_, double error)
 	n_iter = 0;
 	param_index = 0;
 	is_init = true;
-	state = STATE_INIT;
 
-	//
 	params[param_index] += d_params[param_index];
+	state = STATE_AFTER_INCREASE;
 }
 
-
-void Twiddle::run(double *params, double error)
+void Twiddle::run(double error)
 {
 	double dp_sum = d_params[0] + d_params[1] + d_params[2];
 	// End Tuning
 	if (dp_sum < 0.2)
 		return;
 
-	switch (state)
+	// Compare best error & current error
+	if (error < best_error)
 	{
-	case STATE_INIT:
-		//update parameter & run
-		break;
-
-	case STATE_AFTER_INCREASE:
-		break;
-
-	case STATE_AFTER_DECREASE:
-		break;
+		best_error = error;
+		d_params[param_index] *= 1.1;
+		param_index++;
 	}
+	else
+	{
+		if (state == STATE_AFTER_INCREASE)
+		{
+			params[param_index] -= 2*d_params[param_index];
+			state = STATE_AFTER_DECREASE;
+		}
+		else if (state == STATE_AFTER_DECREASE)
+		{
+			params[param_index] += d_params[param_index];
+			d_params[param_index] *= 0.9;
+			param_index++;
+
+			if (param_index == N_PARAMS)
+			{
+				param_index = 0;
+				n_iter++;
+			}
+			params[param_index] += d_params[param_index];
+			state = STATE_AFTER_INCREASE;
+		}
+	}
+
 }
 
 

@@ -1,4 +1,5 @@
 #include "twiddle.h"
+#include <iostream>
 
 using namespace std;
 
@@ -41,6 +42,15 @@ void Twiddle::run(double error)
 		best_error = error;
 		d_params[param_index] *= 1.1;
 		param_index++;
+
+		// end of iter
+		if (param_index == N_PARAMS)
+		{
+			param_index = 0;
+			n_iter++;
+		}
+		params[param_index] += d_params[param_index];
+		state = STATE_AFTER_INCREASE;
 	}
 	else
 	{
@@ -55,6 +65,7 @@ void Twiddle::run(double error)
 			d_params[param_index] *= 0.9;
 			param_index++;
 
+			// end of iter
 			if (param_index == N_PARAMS)
 			{
 				param_index = 0;
@@ -64,6 +75,9 @@ void Twiddle::run(double error)
 			state = STATE_AFTER_INCREASE;
 		}
 	}
+	std::cout << "\n	parameter index: " << param_index;
+	std::cout << "\n	params: " << d_params[0] << ", " << d_params[1] << ", " << d_params[2];
+
 
 }
 

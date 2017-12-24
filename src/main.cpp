@@ -58,8 +58,12 @@ int main()
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
-          steer_value = -cte * 1.0;
-
+          pid.UpdateError(cte);
+          steer_value = -pid.Kp * pid.p_error -pid.Ki * pid.i_error -pid.Kd * pid.d_error;
+          if (steer_value < -1.0)
+        	  steer_value = -1.0;
+          if (steer_value > +1.0)
+        	  steer_value = +1.0;
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;

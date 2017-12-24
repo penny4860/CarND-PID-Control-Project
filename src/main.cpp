@@ -28,6 +28,14 @@ std::string hasData(std::string s) {
   return "";
 }
 
+
+// Resetting the Simulator
+void reset_simulator(uWS::WebSocket<uWS::SERVER>& ws){
+  std::string msg("42[\"reset\",{}]");
+  ws.send(msg.data(),msg.length(), uWS::OpCode::TEXT);
+}
+
+
 int main()
 {
   uWS::Hub h;
@@ -65,6 +73,15 @@ int main()
         	  steer_value = -1.0;
           if (steer_value > +1.0)
         	  steer_value = +1.0;
+
+          double total_error = pid.TotalError();
+          if (pid.step == 750)
+          {
+              std::cout << "\n	==================================================================================";
+              std::cout << "\n	Step: " << pid.step << " average_error" << total_error << std::endl;
+              std::cout << "\n	==================================================================================";
+              reset_simulator(ws);
+          }
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;

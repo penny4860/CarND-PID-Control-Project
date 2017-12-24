@@ -89,8 +89,12 @@ int main()
                 	  twiddle.init(params, d_params, total_error);
                       std::cout << "\n	Init !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                   }
+                  else
+                  {
+                	  twiddle.run(total_error);
+                  }
                   std::cout << "\n	Step: " << pid.step << " average_error" << total_error << std::endl;
-                  pid.Init(pid.Kp, pid.Ki, pid.Kd);
+                  pid.Init(twiddle.params[0], twiddle.params[1], twiddle.params[2]);
                   reset_simulator(ws);
               }
           }

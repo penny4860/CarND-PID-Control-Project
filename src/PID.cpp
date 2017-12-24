@@ -15,9 +15,22 @@ void PID::Init(double Kp, double Ki, double Kd) {
 	this->Kp = Kp;
 	this->Ki = Ki;
 	this->Kd = Kd;
+
+	p_error = 0;
+	i_error = 0;
+	d_error = 0;
+	step = 0;
 }
 
 void PID::UpdateError(double cte) {
+	if (step == 0)
+		d_error = cte - p_error;
+	else
+		d_error = 0;
+	p_error = cte;
+	i_error += cte;
+
+	step++;
 }
 
 double PID::TotalError() {

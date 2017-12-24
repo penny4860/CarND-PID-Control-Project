@@ -91,9 +91,11 @@ int main()
                   }
                   else
                   {
-                	  twiddle.run(total_error);
+                	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
+                	  twiddle.run(params, total_error);
                   }
                   std::cout << "\n	Step: " << pid.step << " average_error" << total_error << std::endl;
+                  std::cout << "\n		parameters: " << twiddle.params[0] << " " << twiddle.params[1] << " " << twiddle.params[2] << std::endl;
                   pid.Init(twiddle.params[0], twiddle.params[1], twiddle.params[2]);
                   reset_simulator(ws);
               }

@@ -43,7 +43,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(4.0, 0.0, 0.0);
+  pid.Init(0.0, 0.0, 0.0);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -76,21 +76,22 @@ int main()
         	  steer_value = -1.0;
           if (steer_value > +1.0)
         	  steer_value = +1.0;
-
+#if 1
           // twiddle parameter setting code
           {
-              if (pid.step == 1200)
+              if (pid.step == 2000)
               {
                   double total_error = pid.TotalError();
                   std::cout << "\n	iteration: " << twiddle.n_iter;
                   std::cout << "\n	parameters: " << twiddle.params[0] << ", " << twiddle.params[1] << ", " << twiddle.params[2];
                   std::cout << "\n	d-parameters: " << twiddle.d_params[0] << ", " << twiddle.d_params[1] << ", " << twiddle.d_params[2];
+                  std::cout << "\n	best-parameters: " << twiddle.best_params[0] << ", " << twiddle.best_params[1] << ", " << twiddle.best_params[2];
                   std::cout << "\n	best error: " << twiddle.best_error << ", error: " << total_error << std::endl;
 
                   if (twiddle.is_init == false)
                   {
                 	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
-                	  double d_params[3] = {1.0, 0.1, 0.1};
+                	  double d_params[3] = {1.0, 1.0, 1.0};
                 	  twiddle.init(params, d_params, total_error);
                       std::cout << "\n	Init !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                   }
@@ -103,7 +104,7 @@ int main()
                   reset_simulator(ws);
               }
           }
-
+#endif
 
 //          // DEBUG
 //          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;

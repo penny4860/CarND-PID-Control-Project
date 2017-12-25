@@ -43,7 +43,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.0, 0.0, 0.0);
+  pid.Init(4.0, 0.0, 0.0);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -79,7 +79,7 @@ int main()
 
           // twiddle parameter setting code
           {
-              if (pid.step == 750)
+              if (pid.step == 1200)
               {
                   double total_error = pid.TotalError();
                   std::cout << "\n	iteration: " << twiddle.n_iter;
@@ -90,7 +90,7 @@ int main()
                   if (twiddle.is_init == false)
                   {
                 	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
-                	  double d_params[3] = {1.0, 1.0, 1.0};
+                	  double d_params[3] = {1.0, 0.1, 0.1};
                 	  twiddle.init(params, d_params, total_error);
                       std::cout << "\n	Init !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                   }

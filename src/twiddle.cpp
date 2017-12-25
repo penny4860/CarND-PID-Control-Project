@@ -39,6 +39,7 @@ void Twiddle::run(double error)
 	// Compare best error & current error
 	if (error < best_error)
 	{
+		std::cout << "\n	update parameters \n";
 		best_error = error;
 		d_params[param_index] *= 1.1;
 		param_index++;
@@ -75,10 +76,6 @@ void Twiddle::run(double error)
 			state = STATE_AFTER_INCREASE;
 		}
 	}
-	std::cout << "\n	parameter index: " << param_index;
-	std::cout << "\n	params: " << d_params[0] << ", " << d_params[1] << ", " << d_params[2];
-
-
 }
 
 

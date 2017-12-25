@@ -79,9 +79,14 @@ int main()
 
           // twiddle parameter setting code
           {
-              if (pid.step == 250)
+              if (pid.step == 750)
               {
                   double total_error = pid.TotalError();
+                  std::cout << "\n	iteration: " << twiddle.n_iter;
+                  std::cout << "\n	parameters: " << twiddle.params[0] << ", " << twiddle.params[1] << ", " << twiddle.params[2];
+                  std::cout << "\n	d-parameters: " << twiddle.d_params[0] << ", " << twiddle.d_params[1] << ", " << twiddle.d_params[2];
+                  std::cout << "\n	best error: " << twiddle.best_error << ", error: " << total_error << std::endl;
+
                   if (twiddle.is_init == false)
                   {
                 	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
@@ -93,9 +98,6 @@ int main()
                   {
                 	  twiddle.run(total_error);
                   }
-                  std::cout << "\n	parameters: " << twiddle.params[0] << ", " << twiddle.params[1] << ", " << twiddle.params[2] << std::endl;
-                  std::cout << "\n	d-parameters: " << twiddle.d_params[0] << ", " << twiddle.d_params[1] << ", " << twiddle.d_params[2] << std::endl;
-                  std::cout << "\n	best error: " << twiddle.best_error << ", error: " << total_error << std::endl;
 
                   pid.Init(twiddle.params[0], twiddle.params[1], twiddle.params[2]);
                   reset_simulator(ws);

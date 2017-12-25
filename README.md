@@ -63,9 +63,9 @@ I created a Twiddle object in the main function to monitor the parameter update 
 
 In this case, since it is time consuming to obtain the error for the whole track, the total error at the 2000th time step is used as the error of the twiddle algorithm. The parameters finally determined through this process are as follows.
 
-* Kp : ```0.195533```
-* Ki : ```0.0```
-* Kd : ```1.95597```
+* Kp : 0.195533
+* Ki : 0.0
+* Kd : 1.95597
 
 Before I set the parameters using the twiddle algorithm, I thought I had to increase the tuning coefficient of the P component. This is because the P component is a component that directly reduces cross-track error. However, using the twiddle algorithm, the tuning coefficient of the D component was determined to be much larger. Perhaps the influence of the D component seems to be great in order to smooth the control in the curve path. The tuning coefficient of the I component is 0.0. In the udacity simulator, there seems to be little or no hardware error.
 

@@ -40,3 +40,8 @@ double PID::TotalError() {
 
 }
 
+double PID::GetCorrectionValue() {
+    return -1(*Kp*p_error + Kd*d_error + Ki*i_error);
+}
+
+

@@ -41,6 +41,9 @@ void Twiddle::run(double error)
 	{
 		std::cout << "\n	update parameters \n";
 		best_error = error;
+		best_params[0] = params[0];
+		best_params[1] = params[1];
+		best_params[2] = params[2];
 		d_params[param_index] *= 1.1;
 		param_index++;
 

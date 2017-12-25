@@ -18,6 +18,7 @@ public:
   int n_iter;
   double params[N_PARAMS];
   double d_params[N_PARAMS];
+  double best_params[N_PARAMS];
   bool is_init = false;
   int param_index;
   enum state state;

@@ -39,20 +39,35 @@ Tips for setting up your environment can be found [here](https://classroom.udaci
 
 ## Reflection
 
+The video recording the implementation results can be viewed in [Video](https://youtu.be/fVyjub0ElTw).
+
 #### Effects of P, I, D components
+
+PID control is the most commonly used control method among the automatic control methods. Here, PID means to determine the control component by P, Proportinal, I: Integral and D: Differential.
+
+* P component : P component is a component that linearly reduces the error value. This is the most intuitive control method when designing a controller.
+
+* I component : I component is a component that reduces the integral error along the time axis. This is a control method that can effectively compensate for hardware bias errors.
+
+* D component : D component is the component that reduces the difference value of error. This component prevents unstable control behavior such as oscillation. Especially when you need to change the control smoothly, such as the curve path, this component should be tuned high.
 
 
 #### How to tune P, I, D, parameters
 
-I implemented a twiddle algorithm to tune parameters. [twiddle.cpp](https://github.com/penny4860/CarND-PID-Control-Project/blob/master/src/twiddle.cpp) 에 Twiddle class를 구현하였고, main 함수에서 이 class를 이용하였습니다. 다만, 전체 track에 대한 error를 구하는 것은 시간소모가 많기 때문에 2000-steps 에서의 total error를 twiddle algorithm의 error로 사용하였습니다. 
+I implemented a twiddle algorithm to tune parameters. 
 
-이러한 과정을 통해서 최종적으로 결정된 parameter는 다음과 같습니다.
+I implemented the Twiddle class in [twiddle.cpp](https://github.com/penny4860/CarND-PID-Control-Project/blob/master/src/twiddle.cpp)
+I created a Twiddle object in the main function to monitor the parameter update process. The figure below shows the update process of P, I, D parameter by twiddle algorithm.
+
+<img src="imgs/params.png">
+
+In this case, since it is time consuming to obtain the error for the whole track, the total error at the 2000th time step is used as the error of the twiddle algorithm. The parameters finally determined through this process are as follows.
 
 * Kp : ```0.195533```
 * Ki : ```0```
-* Kd : ```2.20014```
+* Kd : ```1.95597```
 
-
+Before I set the parameters using the twiddle algorithm, I thought I had to increase the tuning coefficient of the P component. This is because the P component is a component that directly reduces cross-track error. However, using the twiddle algorithm, the tuning coefficient of the D component was determined to be much larger. Perhaps the influence of the D component seems to be great in order to smooth the control in the curve path. The tuning coefficient of the I component is 0.0. In the udacity simulator, there seems to be little or no hardware error.
 
 
 

@@ -5,6 +5,8 @@
 #include "twiddle.h"
 #include <math.h>
 
+#define TUNE_USING_TWINDLE	NO
+
 // for convenience
 using json = nlohmann::json;
 
@@ -49,7 +51,9 @@ int main()
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
+#if TUNE_USING_TWINDLE
 	static Twiddle twiddle;
+#endif
     if (length && length > 2 && data[0] == '4' && data[1] == '2')
     {
       auto s = hasData(std::string(data).substr(0, length));
@@ -75,7 +79,7 @@ int main()
         	  steer_value = -1.0;
           if (steer_value > +1.0)
         	  steer_value = +1.0;
-#if 1
+#if TUNE_USING_TWINDLE
           // twiddle parameter setting code
           {
               if (pid.step == 2000)

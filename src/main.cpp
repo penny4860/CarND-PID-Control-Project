@@ -43,7 +43,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(1.0, 0.00001, 0.1);
+  pid.Init(0.0, 0.0, 0.0);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -91,11 +91,12 @@ int main()
                   }
                   else
                   {
-                	  double params[3] = {pid.Kp, pid.Ki, pid.Kd};
                 	  twiddle.run(total_error);
                   }
-                  std::cout << "\nStep: " << pid.step << ",   error: " << total_error << std::endl;
                   std::cout << "\n	parameters: " << twiddle.params[0] << ", " << twiddle.params[1] << ", " << twiddle.params[2] << std::endl;
+                  std::cout << "\n	d-parameters: " << twiddle.d_params[0] << ", " << twiddle.d_params[1] << ", " << twiddle.d_params[2] << std::endl;
+                  std::cout << "\n	best error: " << twiddle.best_error << ", error: " << total_error << std::endl;
+
                   pid.Init(twiddle.params[0], twiddle.params[1], twiddle.params[2]);
                   reset_simulator(ws);
               }
